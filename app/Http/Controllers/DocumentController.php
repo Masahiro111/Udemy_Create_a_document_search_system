@@ -36,7 +36,28 @@ class DocumentController extends Controller
      */
     public function store(StoreDocumentRequest $request)
     {
-        //
+        $validated = $request->validate([
+            'document' => 'required|mimes:text',
+        ]);
+
+        $uploadedFile = $request->file('document');
+
+        $file = $uploadedFile->store('documents');
+
+        if (!$request->filename) {
+            $originalFilename = basename($uploadedFile->getClientOriginalName(), '.' . $uploadedFile->getClientOriginalExtension());
+        }
+
+        $document = new Document();
+
+        $document->filename = $originalFilename ?? $request->filename;
+        $document->location = $file;
+        $document->body = "";
+        $document->user_id = auth()->user()->id;
+
+        $document->save();
+
+        return redirect(route('documents.index'));
     }
 
     /**

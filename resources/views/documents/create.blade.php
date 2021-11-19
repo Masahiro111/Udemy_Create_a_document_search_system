@@ -6,24 +6,7 @@
     </x-slot>
 
     <div class="py-12">
-
-        <!--
-  This example requires Tailwind CSS v2.0+ 
-  
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
--->
-        <div>
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="md:grid md:grid-cols-3 md:gap-6">
                 <div class="md:col-span-1">
                     <div class="px-4 sm:px-0">
@@ -38,6 +21,7 @@
                           action="{{ route(document.store') }}"
                           method="POST"
                           enctype="multipart/form-data">
+                        @csrf
                         <div class="shadow sm:rounded-md sm:overflow-hidden">
                             <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
                                 <div class="grid grid-cols-3 gap-6">
@@ -72,6 +56,10 @@
                                             </p>
                                         </div>
                                     </div>
+                                    @error('document')
+                                    <p>file error</p>
+                                    <p>{{ $message }}</p>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
